@@ -1,5 +1,5 @@
 ﻿/* Pokemon GO IV and level calculator v1.0
-created: 11.05.2017
+created: 20.07.2017
 author: InfernumDeus
 e-mail: sataha19@mail.ru
 github: https://github.com/InfernumDeus
@@ -30,7 +30,7 @@ namespace IVcalc
             Tuple.Create(2500,  36, 39),
             Tuple.Create(3000,  40, 43),
             Tuple.Create(3500,  44, 47),
-            Tuple.Create(4000,  48, 51),
+            Tuple.Create(4000,  48, 51), 
             Tuple.Create(4500,  52, 55),
             Tuple.Create(5000,  56, 59),
             Tuple.Create(6000,  60, 63),
@@ -100,7 +100,6 @@ namespace IVcalc
                 case 2: minSumIV = 23; maxSumIV = 29; break;
                 case 3: minSumIV = 30; maxSumIV = 36; break;
                 case 4: minSumIV = 37; maxSumIV = 45; break;
-                default: minSumIV = 0; maxSumIV = 45; break;
             }
 
             //calculate possible level and stamina by hp
@@ -217,20 +216,22 @@ namespace IVcalc
                             atk + def + t.Item2 > maxSumIV) continue;
 
                         //avoid IV sets with invalid highest IV
-                        int maxValue = new[] { atk, def, t.Item2 }.Max();
-                        switch (message_best_stat)
+                        if (message_best_stat != -1 && (atk_is_max || def_is_max || sta_is_max))
                         {
-                            case 1: if (maxValue > 7) continue; break; //0-7
-                            case 2: if (maxValue < 8 || maxValue > 12) continue; break; //8-12
-                            case 3: if (maxValue < 13 || maxValue > 14) continue; break; //13-14
-                            case 4: if (maxValue != 15) continue; break; //15
-                            default: continue;
-                        }
+                            int maxValue = new[] { atk, def, t.Item2 }.Max();
+                            switch (message_best_stat)
+                            {
+                                case 1: if (maxValue > 7) continue; break; //0-7
+                                case 2: if (maxValue < 8 || maxValue > 12) continue; break; //8-12
+                                case 3: if (maxValue < 13 || maxValue > 14) continue; break; //13-14
+                                case 4: if (maxValue != 15) continue; break; //15
+                            }
 
-                        if ((atk == maxValue ^ atk_is_max) ||
-                            (def == maxValue ^ def_is_max) ||
-                            (t.Item2 == maxValue ^ sta_is_max))
-                            continue;
+                            if ((atk == maxValue ^ atk_is_max) ||
+                                (def == maxValue ^ def_is_max) ||
+                                (t.Item2 == maxValue ^ sta_is_max))
+                                continue;
+                        }
                         ///////
 
                         float cpm = cp_mult.m[t.Item1];
