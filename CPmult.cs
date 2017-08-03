@@ -8,7 +8,7 @@ namespace CPmult
 {
     public static class cp_mult
     {
-        public static List<float> m = new List<float> {
+        public static readonly List<float> m = new List<float> {
             0.094F,         0.135137432F, //1-1.5
             0.16639787F,    0.192650919F, //2-2.5
             0.21573247F,    0.236572661F,
